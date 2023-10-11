@@ -45,7 +45,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = UserSerializer(many=False, read_only=True)
+    author = serializers.CharField(
+        source="author.username", read_only=True
+    )
 
     class Meta:
         model = Post
@@ -53,10 +55,14 @@ class PostSerializer(serializers.ModelSerializer):
             "id",
             "text",
             "author",
+            "likes",
+            "dislikes",
+            "created_at",
         )
         read_only_fields = (
             "id",
             "likes",
             "dislikes",
             "created_at",
+            "author",
         )
