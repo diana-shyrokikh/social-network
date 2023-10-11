@@ -16,14 +16,12 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "password",
             "last_request",
-            "likes_count",
         )
 
         read_only_fields = (
             "id",
             "last_login",
             "last_request",
-            "likes_count",
         )
 
 
