@@ -26,8 +26,22 @@ class UserSerializer(serializers.ModelSerializer):
             "likes_count",
         )
 
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = get_user_model()
+
+        fields = (
+            "username",
+            "password",
+        )
+
     def create(self, validated_data):
-        return get_user_model().objects.create_user(**validated_data)
+        return get_user_model().objects.create_user(
+            **validated_data
+        )
 
 
 class PostSerializer(serializers.ModelSerializer):
