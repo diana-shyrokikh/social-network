@@ -16,7 +16,9 @@ class Post(models.Model):
     text = models.TextField()
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
-    created_at = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(
+        null=True, auto_now_add=True
+    )
     author = models.ForeignKey(
         to=get_user_model(),
         related_name="posts",
