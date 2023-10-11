@@ -10,7 +10,7 @@ router.register("posts", views.PostViewSet)
 urlpatterns = [
     path("", include(router.urls)),
     path(
-        "singup/",
+        "signup/",
         views.CreateUserView.as_view(),
         name="signup"
     )
