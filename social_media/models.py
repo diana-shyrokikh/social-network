@@ -9,7 +9,11 @@ class User(AbstractUser):
     last_request = models.DateTimeField(
         default=datetime.now()
     )
-    likes_count = models.IntegerField(default=0)
+    reacted_posts = models.ManyToManyField(
+        "Post",
+        through="PostUserReaction",
+        related_name="reacted_posts"
+    )
 
 
 class Post(models.Model):
@@ -25,3 +29,13 @@ class Post(models.Model):
         on_delete=models.CASCADE
     )
 
+
+class PostUserReaction(models.Model):
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE
+    )
+    date = models.DateField(auto_now_add=True)
+    is_liked = models.BooleanField()
