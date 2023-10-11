@@ -4,7 +4,8 @@ from rest_framework import viewsets, generics
 from social_media.models import Post
 from social_media.serializers import (
     UserSerializer,
-    PostSerializer
+    PostSerializer,
+    UserCreateSerializer
 )
 
 
@@ -14,7 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class CreateUserView(generics.CreateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserCreateSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
