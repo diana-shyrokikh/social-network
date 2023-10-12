@@ -42,6 +42,18 @@ class UserCreateSerializer(serializers.ModelSerializer):
         )
 
 
+class UserActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+
+        fields = (
+            "id",
+            "username",
+            "last_login",
+            "last_request",
+        )
+
+
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.CharField(
         source="author.username", read_only=True
