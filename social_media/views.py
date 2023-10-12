@@ -3,6 +3,7 @@ from rest_framework import viewsets, generics
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from social_media.models import (
     Post,
@@ -11,7 +12,7 @@ from social_media.models import (
 from social_media.serializers import (
     UserSerializer,
     PostSerializer,
-    UserCreateSerializer
+    UserCreateSerializer, UserActivitySerializer
 )
 from social_media.utils import (
     like_or_dislike_post,
@@ -26,6 +27,15 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class CreateUserView(generics.CreateAPIView):
     serializer_class = UserCreateSerializer
+
+
+class UserActivityView(generics.ListAPIView):
+    serializer_class = UserActivitySerializer
+
+    def get_queryset(self):
+        return get_user_model().objects.filter(
+            id=self.request.user.id
+        )
 
 
 class PostViewSet(viewsets.ModelViewSet):
