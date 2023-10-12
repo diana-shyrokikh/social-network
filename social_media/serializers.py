@@ -76,3 +76,14 @@ class PostSerializer(serializers.ModelSerializer):
             "created_at",
             "author",
         )
+
+
+class UserLikesAnalyticsSerializer(serializers.Serializer):
+    date = serializers.DateField()
+    total_likes = serializers.IntegerField()
+
+    class Meta:
+        fields = (
+            "date",
+            "total_likes",
+        )
