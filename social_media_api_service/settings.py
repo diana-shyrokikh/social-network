@@ -117,6 +117,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "social_media.User"
 
+AUTHENTICATION_BACKENDS = [
+    "social_media_api_service.custom_auth_backends.CustomAuthBackend",
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
