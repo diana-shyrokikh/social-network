@@ -13,12 +13,16 @@ urlpatterns = [
         "signup/",
         views.CreateUserView.as_view(),
         name="signup"
-    )
     ),
     path(
         "user_activity/",
         views.UserActivityView.as_view(),
         name="user_activity"
+    ),
+    path(
+        "analytics/",
+        views.UserLikesAnalyticsView.as_view(),
+        name="user_analytics"
     ),
 ]
 
