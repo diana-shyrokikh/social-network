@@ -6,6 +6,20 @@ from social_media.models import (
 )
 
 
+def is_user_post_author(
+        post: Post,
+        user: get_user_model(),
+        is_liked: bool,
+) -> str | None:
+    is_liked = (
+        "like" if is_liked
+        else "dislike"
+    )
+
+    if post.author_id == user.id:
+        return f"You cannot {is_liked} your post"
+
+
 def like_or_dislike_post(
     user: get_user_model(),
     post: Post,
