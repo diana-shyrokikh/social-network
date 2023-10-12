@@ -12,6 +12,7 @@ from social_media.models import (
     Post,
     PostUserReaction,
 )
+from social_media.permissions import IsAuthorOrReadOnly
 from social_media.serializers import (
     UserSerializer,
     PostSerializer,
@@ -46,8 +47,9 @@ class UserActivityView(generics.ListAPIView):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.select_related("author")
     serializer_class = PostSerializer
+    permission_classes = [IsAuthorOrReadOnly, ]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
