@@ -8,7 +8,7 @@ from tqdm import tqdm
 BASE_URL = "http://localhost:8000/api/v1/social_media/"
 
 with open(
-    "bot_config.json", "r"
+    "social_media_api_bot/bot_config.json", "r"
 ) as config_file:
     config = json.load(config_file)
 
