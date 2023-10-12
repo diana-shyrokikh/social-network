@@ -20,6 +20,7 @@ from social_media.serializers import (
     UserLikesAnalyticsSerializer
 )
 from social_media.utils import (
+    is_user_post_author,
     like_or_dislike_post,
     like_or_dislike_post_update,
 )
@@ -60,22 +61,29 @@ class PostViewSet(viewsets.ModelViewSet):
     def like_post(self, request, pk=None):
         post = self.get_object()
         user = request.user
-        is_reacted_before = PostUserReaction.objects.filter(
-            user=user, post=post
+        message = is_user_post_author(
+            post, user, True
         )
 
-        if is_reacted_before:
-            reaction = is_reacted_before[0].is_liked
+        if not message:
 
-            if reaction:
-                message = "You cannot like the post twice"
+            is_reacted_before = PostUserReaction.objects.filter(
+                user=user, post=post
+            )
+
+            if is_reacted_before:
+                reaction = is_reacted_before[0].is_liked
+
+                if reaction:
+                    message = "You cannot like the post twice"
+
+                else:
+                    message = like_or_dislike_post_update(
+                        post, is_reacted_before[0], True
+                    )
+
             else:
-                message = like_or_dislike_post_update(
-                    post, is_reacted_before[0], True
-                )
-
-        else:
-            message = like_or_dislike_post(user, post, True)
+                message = like_or_dislike_post(user, post, True)
 
         return Response({
             "message": message
@@ -90,22 +98,28 @@ class PostViewSet(viewsets.ModelViewSet):
     def dislike_post(self, request, pk=None):
         post = self.get_object()
         user = request.user
-        is_reacted_before = PostUserReaction.objects.filter(
-            user=user, post=post
+        message = is_user_post_author(
+            post, user, False
         )
 
-        if is_reacted_before:
-            reaction = is_reacted_before[0].is_liked
+        if not message:
+            is_reacted_before = PostUserReaction.objects.filter(
+                user=user, post=post
+            )
 
-            if not reaction:
-                message = "You cannot dislike the post twice"
+            if is_reacted_before:
+                reaction = is_reacted_before[0].is_liked
+
+                if not reaction:
+                    message = "You cannot dislike the post twice"
+
+                else:
+                    message = like_or_dislike_post_update(
+                        post, is_reacted_before[0], False
+                    )
+
             else:
-                message = like_or_dislike_post_update(
-                    post, is_reacted_before[0], False
-                )
-
-        else:
-            message = like_or_dislike_post(user, post, False)
+                message = like_or_dislike_post(user, post, False)
 
         return Response({
                 "message": message
