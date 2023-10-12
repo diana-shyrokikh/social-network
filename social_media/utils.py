@@ -23,9 +23,9 @@ def is_user_post_author(
 def like_or_dislike_post(
     user: get_user_model(),
     post: Post,
-    reaction: bool
+    is_liked: bool
 ) -> str:
-    if not reaction:
+    if not is_liked:
         post.dislikes += 1
     else:
         post.likes += 1
@@ -35,23 +35,23 @@ def like_or_dislike_post(
     PostUserReaction.objects.create(
         user=user,
         post=post,
-        is_liked=reaction
+        is_liked=is_liked
     )
 
-    reaction = (
-        "like" if reaction
+    is_liked = (
+        "like" if is_liked
         else "dislike"
     )
 
-    return f"Post {reaction}d successfully"
+    return f"Post {is_liked}d successfully"
 
 
 def like_or_dislike_post_update(
     post: Post,
     post_user_table: PostUserReaction,
-    reaction: bool
+    is_liked: bool
 ) -> str:
-    if not reaction:
+    if not is_liked:
         post.likes -= 1
         post.dislikes += 1
     else:
@@ -59,12 +59,12 @@ def like_or_dislike_post_update(
         post.likes += 1
 
     post.save()
-    post_user_table.is_liked = reaction
+    post_user_table.is_liked = is_liked
     post_user_table.save()
 
-    reaction = (
-        "like" if reaction
+    is_liked = (
+        "like" if is_liked
         else "dislike"
     )
 
-    return f"Post {reaction}d successfully"
+    return f"Post {is_liked}d successfully"
