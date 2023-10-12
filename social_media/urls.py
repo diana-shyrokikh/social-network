@@ -14,6 +14,12 @@ urlpatterns = [
         views.CreateUserView.as_view(),
         name="signup"
     )
+    ),
+    path(
+        "user_activity/",
+        views.UserActivityView.as_view(),
+        name="user_activity"
+    ),
 ]
 
 app_name = "social_media"
