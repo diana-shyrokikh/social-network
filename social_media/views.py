@@ -12,6 +12,7 @@ from social_media.models import (
     Post,
     PostUserReaction,
 )
+from social_media.paginations import TenSizePagination
 from social_media.permissions import IsAuthorOrReadOnly
 from social_media.serializers import (
     UserSerializer,
@@ -31,6 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser, ]
+    pagination_class = TenSizePagination
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -50,6 +52,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.select_related("author")
     serializer_class = PostSerializer
     permission_classes = [IsAuthorOrReadOnly, ]
+    pagination_class = TenSizePagination
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -57,7 +60,7 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(
         methods=["GET"],
         detail=True,
-        url_path="like-post",
+        url_path="like",
         permission_classes=[IsAuthenticated, ],
     )
     def like_post(self, request, pk=None):
@@ -94,7 +97,7 @@ class PostViewSet(viewsets.ModelViewSet):
     @action(
         methods=["GET"],
         detail=True,
-        url_path="dislike-post",
+        url_path="dislike",
         permission_classes=[IsAuthenticated, ],
     )
     def dislike_post(self, request, pk=None):
