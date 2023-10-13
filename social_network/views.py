@@ -1,5 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q, Count
+from drf_spectacular.utils import (
+    extend_schema,
+    OpenApiParameter,
+)
 from rest_framework import viewsets, generics
 from rest_framework.decorators import action
 from rest_framework.permissions import (
@@ -18,7 +22,6 @@ from social_network.serializers import (
     UserSerializer,
     PostSerializer,
     UserCreateSerializer,
-    UserActivitySerializer,
     UserLikesAnalyticsSerializer
 )
 from social_network.utils import (
@@ -40,7 +43,7 @@ class CreateUserView(generics.CreateAPIView):
 
 
 class UserActivityView(generics.ListAPIView):
-    serializer_class = UserActivitySerializer
+    serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, ]
     pagination_class = TenSizePagination
 
@@ -53,15 +56,6 @@ class UserActivityView(generics.ListAPIView):
             )
 
         return queryset
-
-
-class UsersActivityView(generics.ListAPIView):
-    serializer_class = UserActivitySerializer
-    permission_classes = [IsAdminUser, ]
-    pagination_class = TenSizePagination
-
-    def get_queryset(self):
-        return get_user_model().objects.all()
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -169,3 +163,25 @@ class UserLikesAnalyticsView(generics.ListAPIView):
                 queryset = queryset.filter(user=self.request.user)
 
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "date_from",
+                type=str,
+                description="Filter by date_from (ex. ?date_from=2023-10-10)",
+                required=False,
+                location=OpenApiParameter.QUERY,
+            ),
+            OpenApiParameter(
+                "date_to",
+                type=str,
+                description="Filter by date_to (ex. ?date_to=2023-10-12)",
+                required=False,
+                location=OpenApiParameter.QUERY,
+            ),
+        ]
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(self, request, *args, **kwargs)
+
