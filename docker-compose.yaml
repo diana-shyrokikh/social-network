@@ -26,7 +26,7 @@ services:
       context: .
     volumes:
       - ./:/app
-    command: python3 social_media_api_bot/bot.py
+    command: python3 social_network_api_bot/bot.py
 
     depends_on:
       - app

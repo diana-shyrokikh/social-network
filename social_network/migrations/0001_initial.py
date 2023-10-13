@@ -170,7 +170,7 @@ class Migration(migrations.Migration):
                     "post",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="social_media.post",
+                        to="social_network.post",
                     ),
                 ),
                 (
@@ -187,8 +187,8 @@ class Migration(migrations.Migration):
             name="reacted_posts",
             field=models.ManyToManyField(
                 related_name="reacted_posts",
-                through="social_media.PostUserReaction",
-                to="social_media.post",
+                through="social_network.PostUserReaction",
+                to="social_network.post",
             ),
         ),
         migrations.AddField(

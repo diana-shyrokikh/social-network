@@ -8,7 +8,7 @@ def main():
     """Run administrative tasks."""
     os.environ.setdefault(
         "DJANGO_SETTINGS_MODULE",
-        "social_media_api_service.settings"
+        "social_network_api_service.settings"
     )
     try:
         from django.core.management import execute_from_command_line

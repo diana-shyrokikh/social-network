@@ -8,20 +8,20 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 
-from social_media.models import (
+from social_network.models import (
     Post,
     PostUserReaction,
 )
-from social_media.paginations import TenSizePagination
-from social_media.permissions import IsAuthorOrReadOnly
-from social_media.serializers import (
+from social_network.paginations import TenSizePagination
+from social_network.permissions import IsAuthorOrReadOnly
+from social_network.serializers import (
     UserSerializer,
     PostSerializer,
     UserCreateSerializer,
     UserActivitySerializer,
     UserLikesAnalyticsSerializer
 )
-from social_media.utils import (
+from social_network.utils import (
     is_user_post_author,
     like_or_dislike_post,
     like_or_dislike_post_update,

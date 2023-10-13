@@ -7,10 +7,10 @@ import requests
 from faker import Faker
 from tqdm import tqdm
 
-BASE_URL = "http://app:8000/api/v1/social_media/"
+BASE_URL = "http://app:8000/api/v1/social_network/"
 
 with open(
-    "social_media_api_bot/bot_config.json", "r"
+    "social_network_api_bot/bot_config.json", "r"
 ) as config_file:
     config = json.load(config_file)
 
@@ -19,7 +19,7 @@ max_posts_per_user = config.get("max_posts_per_user")
 max_likes_per_user = config.get("max_likes_per_user")
 
 
-class SocialMediaAPIBot:
+class SocialNetworkAPIBot:
     def __init__(
         self,
         base_url,
@@ -153,7 +153,7 @@ class SocialMediaAPIBot:
 
 
 if __name__ == "__main__":
-    bot = SocialMediaAPIBot(
+    bot = SocialNetworkAPIBot(
         BASE_URL,
         number_of_users,
         max_posts_per_user,

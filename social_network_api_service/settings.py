@@ -1,5 +1,5 @@
 """
-Django settings for social_media_api_service project.
+Django settings for social_network_api_service project.
 """
 import os
 from datetime import timedelta
@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "debug_toolbar",
-    "social_media",
+    "social_network",
 ]
 
 MIDDLEWARE = [
@@ -48,10 +48,10 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    "social_media.middleware.UserLastRequestMiddleware",
+    "social_network.middleware.UserLastRequestMiddleware",
 ]
 
-ROOT_URLCONF = "social_media_api_service.urls"
+ROOT_URLCONF = "social_network_api_service.urls"
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "social_media_api_service.wsgi.application"
+WSGI_APPLICATION = "social_network_api_service.wsgi.application"
 
 DATABASES = {
     "default": {
@@ -97,10 +97,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "social_media.User"
+AUTH_USER_MODEL = "social_network.User"
 
 AUTHENTICATION_BACKENDS = [
-    "social_media_api_service.custom_auth_backends.CustomAuthBackend",
+    "social_network_api_service.custom_auth_backends.CustomAuthBackend",
 ]
 
 LANGUAGE_CODE = "en-us"

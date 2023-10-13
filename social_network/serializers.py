@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from social_media.models import Post
+from social_network.models import Post
 
 
 class UserSerializer(serializers.ModelSerializer):

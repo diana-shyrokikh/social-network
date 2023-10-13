@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from social_media.models import (
+from social_network.models import (
     Post,
     PostUserReaction,
 )

@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView
 )
 
-from social_media import views
+from social_network import views
 
 router = routers.DefaultRouter()
 router.register("users", views.UserViewSet)
@@ -42,4 +42,4 @@ urlpatterns = [
     ),
 ]
 
-app_name = "social_media"
+app_name = "social_network"
