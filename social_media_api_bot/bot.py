@@ -1,11 +1,13 @@
 import json
 import random
+import time
+
 import requests
 
 from faker import Faker
 from tqdm import tqdm
 
-BASE_URL = "http://localhost:8000/api/v1/social_media/"
+BASE_URL = "http://app:8000/api/v1/social_media/"
 
 with open(
     "social_media_api_bot/bot_config.json", "r"
@@ -33,6 +35,20 @@ class SocialMediaAPIBot:
         self.max_likes_per_user = max_likes_per_user
 
         self.users = []
+
+    def wait_for_running_server(self):
+        while True:
+            try:
+                requests.get(self.base_url)
+            except (
+                    ConnectionError,
+                    requests.exceptions.RequestException
+            ):
+                print("Connection failed. Retrying in 30 seconds...")
+                time.sleep(30)
+            else:
+                print("Connected to the server.")
+                break
 
     def users_make_posts(self) -> None:
         for _ in tqdm(
@@ -65,6 +81,7 @@ class SocialMediaAPIBot:
     def user_actions(self) -> None:
         user_credentials = self.signup_user()
         user_auth_header = self.get_auth_headers(user_credentials)
+
         for _ in tqdm(
             range(random.randint(
                 1, self.max_posts_per_user
@@ -143,5 +160,6 @@ if __name__ == "__main__":
         max_likes_per_user,
     )
 
+    bot.wait_for_running_server()
     bot.users_make_posts()
     bot.users_like_posts()
