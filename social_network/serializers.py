@@ -12,10 +12,10 @@ class UserSerializer(serializers.ModelSerializer):
 
         fields = (
             "id",
-            "last_login",
             "username",
-            "password",
+            "last_login",
             "last_request",
+            "password",
         )
 
         read_only_fields = (
@@ -39,18 +39,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return get_user_model().objects.create_user(
             **validated_data
-        )
-
-
-class UserActivitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()
-
-        fields = (
-            "id",
-            "username",
-            "last_login",
-            "last_request",
         )
 
 
