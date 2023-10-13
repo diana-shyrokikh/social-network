@@ -31,7 +31,7 @@ urlpatterns = [
         name="signup"
     ),
     path(
-        "user_activity/",
+        "activity/",
         views.UserActivityView.as_view(),
         name="user_activity"
     ),
