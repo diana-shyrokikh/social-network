@@ -41,11 +41,27 @@ class CreateUserView(generics.CreateAPIView):
 
 class UserActivityView(generics.ListAPIView):
     serializer_class = UserActivitySerializer
+    permission_classes = [IsAuthenticated, ]
+    pagination_class = TenSizePagination
 
     def get_queryset(self):
-        return get_user_model().objects.filter(
-            id=self.request.user.id
-        )
+        queryset = get_user_model().objects.all()
+
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(
+                id=self.request.user.id
+            )
+
+        return queryset
+
+
+class UsersActivityView(generics.ListAPIView):
+    serializer_class = UserActivitySerializer
+    permission_classes = [IsAdminUser, ]
+    pagination_class = TenSizePagination
+
+    def get_queryset(self):
+        return get_user_model().objects.all()
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -133,6 +149,8 @@ class PostViewSet(viewsets.ModelViewSet):
 
 class UserLikesAnalyticsView(generics.ListAPIView):
     serializer_class = UserLikesAnalyticsSerializer
+    permission_classes = [IsAuthenticated, ]
+    pagination_class = TenSizePagination
 
     def get_queryset(self):
         queryset = PostUserReaction.objects.select_related(
@@ -145,7 +163,9 @@ class UserLikesAnalyticsView(generics.ListAPIView):
             queryset = queryset.filter(
                 (Q(date__gte=date_from) & Q(date__lte=date_to)),
                 is_liked=True,
-                user=self.request.user,
             ).values("date").annotate(total_likes=Count("id"))
+
+            if not self.request.user.is_superuser:
+                queryset = queryset.filter(user=self.request.user)
 
         return queryset
